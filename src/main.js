@@ -1,15 +1,12 @@
-// Описаний у документації
 import iziToast from 'izitoast';
-// Додатковий імпорт стилів
 import 'izitoast/dist/css/iziToast.min.css';
 import { request, markup } from './js/render-functions';
-// import { button, } from './js/render-functions';
 
 const input = document.querySelector('.search');
 const button = document.querySelector('.button');
 const gallery = document.querySelector('.gallery');
 
-function renderImages(evt) {
+function handleSearch(evt) {
   evt.preventDefault();
   const searchWord = request();
   if (searchWord.length === 0) {
@@ -23,12 +20,9 @@ function renderImages(evt) {
     });
   } else {
     gallery.innerHTML = '';
-
-    markup();
-
-    input.value = '';
+    markup(searchWord); 
+    input.value = ''; // Очищаємо поле вводу після виконання пошуку
   }
 }
 
-input.addEventListener('input', request);
-button.addEventListener('click', renderImages);
+button.addEventListener('click', handleSearch);

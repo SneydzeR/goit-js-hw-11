@@ -13,28 +13,10 @@ export function request() {
   const inputValue = input.value.trim();
   return inputValue;
 }
-
-export function markup() {
+function renderImages(data) {
   const gallery = document.querySelector('.gallery');
-  const loader = document.querySelector('.loader');
-  const searchWord = request();
-  loader.style.display = 'block';
-  fetchInfo(searchWord).then(data => {
-    if (data.hits.length === 0) {
-      loader.style.display = 'none';
-      iziToast.error({
-        theme: 'dark',
-        message:
-          'Sorry, there are no images matching your search query. Please try again!',
-        messageColor: '#FAFAFB',
-        backgroundColor: '#EF4040',
-        position: 'topRight',
-        progressBarColor: '#B51B1B',
-      });
-    } else {
-      const images = data.hits
-        .map(element => {
-          return `<li class="gallery-item">
+  const images = data.hits.map(element => {
+    return `<li class="gallery-item">
         <a class="image-link" href="${element.largeImageURL}">
           <img class="image" src="${element.webformatURL}" alt="${element.tags}" />
         </a>
@@ -57,15 +39,28 @@ export function markup() {
           </li>
         </ul>
       </li>`;
-        })
-        .join('');
-      loader.style.display = 'none';
-      gallery.insertAdjacentHTML('beforeend', images);
-      let largeGallery = new SimpleLightbox('.gallery a', {
-        captionsData: 'alt',
-        captionsDelay: 250,
+  }).join('');
+  gallery.insertAdjacentHTML('beforeend', images);
+  new SimpleLightbox('.gallery a', { captionsData: 'alt', captionsDelay: 250 }).refresh();
+}
+
+export function markup() {
+  const loader = document.querySelector('.loader');
+  const searchWord = request();
+  loader.style.display = 'block';
+  fetchInfo(searchWord).then(data => {
+    loader.style.display = 'none';
+    if (data.hits.length === 0) {
+      iziToast.error({
+        theme: 'dark',
+        message: 'Sorry, there are no images matching your search query. Please try again!',
+        messageColor: '#FAFAFB',
+        backgroundColor: '#EF4040',
+        position: 'topRight',
+        progressBarColor: '#B51B1B',
       });
-      largeGallery.refresh();
+    } else {
+      renderImages(data);
     }
   });
 }

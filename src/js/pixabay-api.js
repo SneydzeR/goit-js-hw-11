@@ -11,11 +11,15 @@ export function fetchInfo(searchWord) {
   )
     .then(response => {
       if (!response.ok) {
-        throw new Error(response.status);
+        throw new Error(response.statusText);
       }
       return response.json();
     })
     .then(json => {
       return json;
+    })
+    .catch(error => {
+      console.error('Error fetching data: ', error);
+      throw error; 
     });
 }
