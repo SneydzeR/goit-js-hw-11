@@ -2,8 +2,7 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import { request, markup } from './js/render-functions';
 
-const input = document.querySelector('.search');
-const button = document.querySelector('.button');
+const form = document.querySelector('.search-form');
 const gallery = document.querySelector('.gallery');
 
 function handleSearch(evt) {
@@ -12,17 +11,17 @@ function handleSearch(evt) {
   if (searchWord.length === 0) {
     iziToast.error({
       theme: 'dark',
-      message: 'The field must be fullfield',
+      message: 'The field must be filled',
       messageColor: '#FAFAFB',
       backgroundColor: '#EF4040',
       position: 'topRight',
       progressBarColor: '#B51B1B',
     });
   } else {
-    gallery.innerHTML = '';
-    markup(searchWord); 
-    input.value = ''; // Очищаємо поле вводу після виконання пошуку
+    gallery.innerHTML = ''; 
+    markup(searchWord);
+    evt.currentTarget.elements.search.value = ''; 
   }
 }
 
-button.addEventListener('click', handleSearch);
+form.addEventListener('submit', handleSearch);

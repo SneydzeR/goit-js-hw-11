@@ -44,12 +44,12 @@ function renderImages(data) {
   new SimpleLightbox('.gallery a', { captionsData: 'alt', captionsDelay: 250 }).refresh();
 }
 
-export function markup() {
+export function markup(searchWord) {
   const loader = document.querySelector('.loader');
-  const searchWord = request();
+  // Перед виконанням запиту показуємо індикатор завантаження
   loader.style.display = 'block';
   fetchInfo(searchWord).then(data => {
-    loader.style.display = 'none';
+    loader.style.display = 'none'; // Приховуємо індикатор завантаження
     if (data.hits.length === 0) {
       iziToast.error({
         theme: 'dark',
@@ -62,5 +62,17 @@ export function markup() {
     } else {
       renderImages(data);
     }
+  }).catch(error => {
+    // Приховуємо індикатор завантаження у разі помилки
+    loader.style.display = 'none';
+    iziToast.error({
+      theme: 'dark',
+      message: 'Failed to fetch images. Please try again!',
+      messageColor: '#FAFAFB',
+      backgroundColor: '#EF4040',
+      position: 'topRight',
+      progressBarColor: '#B51B1B',
+    });
+    console.error('Error during fetch operation: ', error);
   });
 }
