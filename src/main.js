@@ -1,8 +1,11 @@
+// Описаний у документації
 import iziToast from 'izitoast';
+// Додатковий імпорт стилів
 import 'izitoast/dist/css/iziToast.min.css';
 import { request, markup } from './js/render-functions';
 
-const form = document.querySelector('.search-form');
+// Отримати доступ до елементів DOM
+const form = document.querySelector('.search-form'); // Додано змінну для форми
 const gallery = document.querySelector('.gallery');
 
 function handleSearch(evt) {
@@ -20,7 +23,7 @@ function handleSearch(evt) {
   } else {
     gallery.innerHTML = ''; 
     markup(searchWord);
-    evt.currentTarget.elements.search.value = ''; 
+    form.elements.search.value = ''; // Очищення поля форми після відправлення
   }
 }
 
