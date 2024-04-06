@@ -1,11 +1,8 @@
-// Описаний у документації
 import iziToast from 'izitoast';
-// Додатковий імпорт стилів
 import 'izitoast/dist/css/iziToast.min.css';
 import { request, markup } from './js/render-functions';
 
-// Отримати доступ до елементів DOM
-const form = document.querySelector('.search-form'); // Додано змінну для форми
+const form = document.querySelector('.form'); 
 const gallery = document.querySelector('.gallery');
 
 function handleSearch(evt) {
